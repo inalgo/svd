@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVD3</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><p>Что-то похожее на черновик по SVD - разложению.</p>
+
+<p><strong>SVD - разложение </strong></p>
+
+<hr>
+
+<p>Сингулярное или SVD разложение, это представление матрицы <script type="math/tex" id="MathJax-Element-265">A_{m\times{n}}</script> ,ввиде произведения трёх матриц специального вида <br>
+<script type="math/tex" id="MathJax-Element-266">\hspace{5em} A_{m\times{n}} = U_{m\times{m}} \cdot S_{m\times{n}} \cdot V_{n\times{n}}^T</script></p>
+
+<p>, где  <script type="math/tex" id="MathJax-Element-267">U</script> и <script type="math/tex" id="MathJax-Element-268">V</script> – унитарные матрицы — матрицы удовлетворяющие уравнению <script type="math/tex" id="MathJax-Element-269">\hspace{5em}</script> <script type="math/tex" id="MathJax-Element-270">A^*A = AA^* = I</script>  <br>
+где <script type="math/tex" id="MathJax-Element-271">M^*</script> — операция сопряжения, обозначающая последовательно применённые операции транспонирования и комплексного сопряжения всех элементов матрицы. <br>
+<script type="math/tex" id="MathJax-Element-272">\hspace{5em}</script><script type="math/tex" id="MathJax-Element-273">M^* = \overline{M^T}</script></p>
+
+<p><script type="math/tex" id="MathJax-Element-274">S</script> — диагональная матрица, вида <script type="math/tex" id="MathJax-Element-275">S = diag(\sigma_1, \dots, \sigma_r, 0\:, \dots, 0) </script></p>
+
+<ul>
+<li>элементы <script type="math/tex" id="MathJax-Element-276">\sigma_i</script> , называются сингулярными числами матрицы <script type="math/tex" id="MathJax-Element-277">A</script></li>
+<li>строки <script type="math/tex" id="MathJax-Element-278">u_i</script> ,матрицы <script type="math/tex" id="MathJax-Element-279">U</script>, называются левыми сингулярными векторами матрицы <script type="math/tex" id="MathJax-Element-280">A</script></li>
+<li>столбцы <script type="math/tex" id="MathJax-Element-281">v_i</script> ,матрицы <script type="math/tex" id="MathJax-Element-282">V</script>, называются правыми сингулярными векторами матрицы <script type="math/tex" id="MathJax-Element-283">A</script></li>
+</ul>
+
+<hr>
+
+<p><strong>Свойства сингулярного разложения<a href="#fn:1" id="fnref:1" title="See footnote" class="footnote">1</a></strong></p>
+
+<ol>
+<li><p>Существует и единственно (с точностью до порядка и знаков сингулярных чисел и векторов), для любой матрицы <script type="math/tex" id="MathJax-Element-284">A</script></p></li>
+<li><p>Левые и правые сингулярные векторы, являются собственными векторами матриц  <script type="math/tex" id="MathJax-Element-285">AA^T</script> и <script type="math/tex" id="MathJax-Element-286">A^TA</script> соответственно. </p></li>
+<li><p>Сингулярные числа являются квадратами соответственных собственных чисел матриц  <script type="math/tex" id="MathJax-Element-287">AA^T</script> и <script type="math/tex" id="MathJax-Element-288">A^TA</script> </p></li>
+<li><p>Количество ненулевых собственных чисел равно рангу матрицы <script type="math/tex" id="MathJax-Element-289">A</script></p></li>
+<li><p>Возьмём матрицу <script type="math/tex" id="MathJax-Element-290">A_k</script>, такую что <script type="math/tex" id="MathJax-Element-291">A_k = U*S_k*V^T</script>, где <script type="math/tex" id="MathJax-Element-292">S_k</script>,  это матрица <script type="math/tex" id="MathJax-Element-293">S</script>, в которой <script type="math/tex" id="MathJax-Element-294">r-k</script> наименьших сингулярных чисел заменены на нули.</p>
+
+<p>Тогда <script type="math/tex" id="MathJax-Element-295">A_k</script>, это матрица  с рангом <script type="math/tex" id="MathJax-Element-296">k</script>, лучше всего приближающая матрицу <script type="math/tex" id="MathJax-Element-297">A</script>, по норме Фробениуса. <br>
+или, если переписать в кванторах</p>
+
+<p><script type="math/tex" id="MathJax-Element-298">\hspace{5em}</script> <script type="math/tex" id="MathJax-Element-299">\min\limits_{B \:: rank(B) = k} ||A-B||_2 = ||A-A_k||_2</script></p>
+
+<p>Норма Фробениуса матрицы <script type="math/tex" id="MathJax-Element-300">A</script> или <script type="math/tex" id="MathJax-Element-301">||A||_2</script> равна <br>
+<script type="math/tex" id="MathJax-Element-302">\hspace{5em}</script><script type="math/tex" id="MathJax-Element-303">||A||_2 = \: \sqrt{\sum\limits_{i = 1}^m \sum\limits_{j=1}^n a_{ij}^2} </script></p></li>
+</ol>
+
+<hr>
+
+<p><strong>Доказательство свойств </strong></p>
+
+<p>Пусть <script type="math/tex" id="MathJax-Element-304">A = U \cdot S \cdot V^*</script> тогда <script type="math/tex" id="MathJax-Element-305">AA^T = U \cdot S^2 \cdot U^*</script> и <script type="math/tex" id="MathJax-Element-306">A^TA = V \cdot S^2 \cdot V^*</script>. <br>
+Тогда так как <script type="math/tex" id="MathJax-Element-307">AA^T</script> и <script type="math/tex" id="MathJax-Element-308">AA^T</script> симметричные квадратные матрицы, размеров <script type="math/tex" id="MathJax-Element-309">m\times{m}</script> и <script type="math/tex" id="MathJax-Element-310">n\times{n}</script> соответственно и мы знаем, что квадратные симметричные матрицы, всегда дигонализируемы, то есть представимы в виде произведения матриц <script type="math/tex" id="MathJax-Element-311">H \cdot Z \cdot H^T</script>, где <script type="math/tex" id="MathJax-Element-312">H</script> - унитарная матрица из собственных векторов, а <script type="math/tex" id="MathJax-Element-313">Z = diag(\lambda_1,\dots, \lambda_r, 0 ,\dots, 0)</script> , где <script type="math/tex" id="MathJax-Element-314">\lambda_i</script> собственные числа. Это оказывает свойства [2] и [3]</p>
+
+<p>Также мы знаем что ранг матрицы <script type="math/tex" id="MathJax-Element-315">A</script> совпадает в рангом матриц <script type="math/tex" id="MathJax-Element-316">AA^T</script>  и <script type="math/tex" id="MathJax-Element-317">A^TA</script> , а их ранг, равен числу ненулевых собственных чисел, которое по свойству [3] совпадает с количеством ненулевых сингулярных чисел. Это доказывает свойство [4]</p>
+
+<hr>
+
+<p><strong>Пример</strong></p>
+
+<p>Пусть <script type="math/tex" id="MathJax-Element-318">A  </script></p>
+
+<p><script type="math/tex; mode=display" id="MathJax-Element-319">\begin{pmatrix}
+1 & 2 & 3\\
+3 & 1 & 5\\
+0 & 5 & 4 \\
+ \end{pmatrix}</script></p>
+
+<p>Тогда  <br>
+<script type="math/tex" id="MathJax-Element-320">  
+\begin{array}{c|c|c}
+U & S & V \\
+\hline
+\begin{array}{rrr}
+    -0.43 & -0.02 & -0.90 \\
+-0.60 & -0.74 &  0.30 \\
+-0.68 &  0.67 &  0.30 \\
+  \end{array} &  
+  \begin{array}{rrr}
+  8.78 &  0 &  0 \\
+0 &  3.58 &  0 \\
+0 &  0 &  0 \\
+  \end{array}&  
+  \begin{array}{rrr}
+    -0.25 & -0.63 & -0.74 \\
+-0.55 &  0.72 & -0.42 \\
+-0.80 & -0.30 &  0.53 \\
+  \end{array}  
+ \end{array}  
+</script></p>
+
+<p>Как мы видим, у матрицы <script type="math/tex" id="MathJax-Element-321">S</script> , два ненулевых сингулярных числа. По свойству [4], это значит <script type="math/tex" id="MathJax-Element-322">rank(A) = 2</script> <br>
+Это можно проверить и по другому. Можно заметить что <script type="math/tex" id="MathJax-Element-323">(2) + (3) = 3*(1) </script> где <script type="math/tex" id="MathJax-Element-324">(i)</script> это <script type="math/tex" id="MathJax-Element-325">i</script> строчка матрицы <script type="math/tex" id="MathJax-Element-326">A</script>.  Это значит что <script type="math/tex" id="MathJax-Element-327">rank(A) = 2</script></p>
+
+<p><script type="math/tex" id="MathJax-Element-328">   
+\begin{array}{c|c}
+AA^T & A^TA \\
+\hline
+\begin{array}{ccc}
+    26 & 9 & 5 \\
+    9 & 42 & 1 \\
+    5 &1 & 1  \\
+  \end{array} &  
+  \begin{array}{ccc}
+    17 & 20 & 9 \\
+    20 & 25 & 5 \\
+    9 & 5 & 27  \\
+  \end{array} \  
+\end{array}  
+</script></p>
+
+<hr>
+
+<p><strong>Применения сингулярного разложения</strong></p>
+
+<ol>
+<li><p>Решение задачи наименьших квадратов. <br>
+<br>  <br>
+Введем сначала понятия псевдорешения и псевдообратной матрицых<a href="#fn:2" id="fnref:2" title="See footnote" class="footnote">2</a>. <br>
+<br>
+<script type="math/tex" id="MathJax-Element-329">\hspace{5em}</script> Пусть у нас есть матричное уравнение <script type="math/tex" id="MathJax-Element-330">Ax = b</script> <br>
+<script type="math/tex" id="MathJax-Element-331">\hspace{5em}</script> Если <script type="math/tex" id="MathJax-Element-332">A</script> обратима, то решение этого уравнения <script type="math/tex" id="MathJax-Element-333">x = A^{-1}b</script> <br>
+<script type="math/tex" id="MathJax-Element-334">\hspace{5em}</script> Но если <script type="math/tex" id="MathJax-Element-335">A</script> необратима, то решения не существует или их бесконечно много <br>
+<script type="math/tex" id="MathJax-Element-336">\hspace{5em}</script> Но мы можем найти так называемое псевдорешение, то есть такое <script type="math/tex" id="MathJax-Element-337">\tilde{x}</script>, что <br>
+<script type="math/tex" id="MathJax-Element-338">\hspace{5em}</script> <script type="math/tex" id="MathJax-Element-339">\tilde{x} = \underset{x}{\mathrm{argmin}}||Ax-b||_2</script> <br>
+<script type="math/tex" id="MathJax-Element-340">\hspace{5em}</script> Доказано что <script type="math/tex" id="MathJax-Element-341">\tilde{x} = A^+b = V \cdot S^+ \cdot U^T \cdot b</script> <br>
+<script type="math/tex" id="MathJax-Element-342">\hspace{5em}</script> Где <script type="math/tex" id="MathJax-Element-343">A^+</script> - называется псевдообратной к матрице <script type="math/tex" id="MathJax-Element-344">A</script> <br>
+<script type="math/tex" id="MathJax-Element-345">\hspace{5em}</script> Матрицы <script type="math/tex" id="MathJax-Element-346">U</script>, <script type="math/tex" id="MathJax-Element-347">S</script> и <script type="math/tex" id="MathJax-Element-348">V</script> это сингулярное разложение матрицы <script type="math/tex" id="MathJax-Element-349">A</script> <br>
+<script type="math/tex" id="MathJax-Element-350">\hspace{5em}</script> Матрица  <script type="math/tex" id="MathJax-Element-351">S^+ = diag(^1/_{\sigma_1}, \dots, ^1/_{\sigma_r}, 0 \dots, 0)</script> <br>
+<br>
+Для того чтобы продемонстрировать метод наименьших квадратов, я сконструирую пример. <br>
+<br>
+Возмём параболу, имеющую уравнение <script type="math/tex" id="MathJax-Element-352">3.15 + 1.59*x + 3.45*x^2</script> (параметры взяты случайно) <br>
+Возьмём её значения в случайных целочисленных точках <script type="math/tex" id="MathJax-Element-353">[8, 6, 9, 4, 0]</script> <br>
+И добавим к ней равномерно распределённый шум с средним <script type="math/tex" id="MathJax-Element-354">0.5</script> <br>
+<br>
+Получим матрицу <script type="math/tex" id="MathJax-Element-355">A</script> вот такого вида <br>
+<br><script type="math/tex" id="MathJax-Element-356">  
+\left( \begin{array}{rr}
+8.0 & 237.05 \\
+6.0 & 136.98 \\
+9.0 & 297.17 \\
+4.0 & 64.93 \\
+0.0 & 3.65 \\
+\end{array}\right)  
+</script> <br>
+<br>
+, где <script type="math/tex" id="MathJax-Element-357">i</script>-тая строка вида <script type="math/tex" id="MathJax-Element-358">(x_i , y_i)</script>  , соответствует точке с координатами <script type="math/tex" id="MathJax-Element-359">(x_i,y_i)</script>. <br>
+Пусть мы хотим найти прямую <script type="math/tex" id="MathJax-Element-360">y = a + bx</script> , которая лучше всего описывает эти точки. <br>
+<br>
+То есть такую что <script type="math/tex" id="MathJax-Element-361">(a,b) =  \underset{a,b}{\mathrm{argmin}}\sum\limits_{i=1}^n|y_i - a - bx_i|</script> <br>
+<br>
+Такую задачу можно переписать как поиск псведорешения матричного уравнения <script type="math/tex" id="MathJax-Element-362">Bk = y</script> ,  <br>
+где <script type="math/tex" id="MathJax-Element-363">k = (a,b)^T</script> , а <script type="math/tex" id="MathJax-Element-364">y = (y_1,\dots,y_n)^T</script>, а <script type="math/tex" id="MathJax-Element-365">B</script> - матрица следующего вида <br>
+<br>
+<script type="math/tex" id="MathJax-Element-366">  
+\left( \begin{array}{rr}
+1 & x_1 \\
+\vdots & \vdots \\
+1 & x_n \\
+\end{array}\right)  
+</script> <br>
+<br>
+В нашем случае матрица <script type="math/tex" id="MathJax-Element-367">B</script> будет равна <br>
+<br>
+<script type="math/tex" id="MathJax-Element-368">  
+\left( \begin{array}{cc}
+1.0 & 8.0 \\
+1.0 & 6.0 \\
+1.0 & 9.0 \\
+1.0 & 4.0 \\
+1.0 & 0.0 \\
+\end{array}\right)  
+</script> <br>
+<br>
+Матрица <script type="math/tex" id="MathJax-Element-369">B</script>, прямоугольная, а значит <script type="math/tex" id="MathJax-Element-370">rank(B) <= \min(m.n) <= 2</script> , и так как у неё <script type="math/tex" id="MathJax-Element-371">10</script> строк,  <br>
+это не полноранговая матрица, поэтому мы сможем найти только псевдорешение. <br>
+<br>
+Тогда <script type="math/tex" id="MathJax-Element-372">SVD</script> разложение матрицы <script type="math/tex" id="MathJax-Element-373">B</script> будет <br>
+<br><script type="math/tex" id="MathJax-Element-374">  
+\begin{array}{c|c|c}
+U & S & V \\
+\hline
+\begin{array}{rrrrr}
+0.57 & -0.09 & -0.76 & -0.2 & 0.24 \\
+0.43 & 0.15 & 0.16 & -0.37 & -0.79 \\
+0.64 & -0.21 & 0.62 & 0.05 & 0.4 \\
+0.29 & 0.39 & -0.12 & 0.84 & -0.19 \\
+0.01 & 0.88 & 0.1 & -0.32 & 0.34 \\
+  \end{array} &  
+\begin{array}{rr}
+14.17 & 0.0 \\
+0.0 & 1.13 \\
+0 & 0 \\
+0 & 0 \\
+0 & 0 \\
+  \end{array}&  
+\begin{array}{rr}
+0.14 & 0.99 \\
+0.99 & -0.14 \\
+  \end{array}  
+\end{array}  
+</script> <br>
+<br>
+Тогда псевдобратная матрица к матрице <script type="math/tex" id="MathJax-Element-375">B</script> будет равна <br>
+<br><script type="math/tex" id="MathJax-Element-376">  
+\begin{array}{c}
+B^+ \\
+\hline
+  \begin{array}{rrrrr}
+-0.07 & 0.14 & -0.18 & 0.35 & 0.77 \\
+0.05 & 0.01 & 0.07 & -0.03 & -0.11 \\
+  \end{array}  
+\end{array}  
+</script> <br>
+<br>
+Перемножая <script type="math/tex" id="MathJax-Element-377">B^+ \cdot y = (-26.88, 32.38)^T</script> <br>
+Значит нужная нам прямая имеет уравнение <script type="math/tex" id="MathJax-Element-378">y = -26.88 - 32.88x</script> <br>
+<img src="https://pp.vk.me/c638622/v638622325/c479/aaSgo5LMocs.jpg"> <br>
+Как мы видим на рисунке прямая не очень хорошо описывает точки.  <br>
+Попробуем подобрать параболу. <br>
+То есть найти псведорешение матричного уравнения <script type="math/tex" id="MathJax-Element-379">Bk = y</script> , где <script type="math/tex" id="MathJax-Element-380">k = (a,b,c)^T</script> , а <script type="math/tex" id="MathJax-Element-381">y = (y_1,\dots,y_n)^T</script>, а <script type="math/tex" id="MathJax-Element-382">B</script> - матрица следующего вида <br>
+<br><script type="math/tex" id="MathJax-Element-383">  
+\left( \begin{array}{rrr}
+1 & x_1 & x_1^2\\
+\vdots & \vdots & \vdots\\
+1 & x_n & x_n^2\\
+\end{array}\right)  
+</script> <br>
+<br>
+В этом случае матрица <script type="math/tex" id="MathJax-Element-384">B</script> будет равна <br>
+<br><script type="math/tex" id="MathJax-Element-385">  
+\left( \begin{array}{ccс}
+1.0 & 8.0 & 64.0 \\
+1.0 & 6.0 & 36.0 \\
+1.0 & 9.0 & 81.0 \\
+1.0 & 4.0 & 16.0 \\
+1.0 & 0.0 & 0.0 \\
+\end{array}\right)  
+</script> <br>
+<br>
+Тогда <script type="math/tex" id="MathJax-Element-386">SVD</script> разложение матрицы <script type="math/tex" id="MathJax-Element-387">B</script> будет <br>
+<br><script type="math/tex" id="MathJax-Element-388">  
+\begin{array}{c|c|c}
+U & S & V \\
+\hline
+\begin{array}{rrrrr}
+-0.58 & 0.0 & 0.04 & -0.44 & 0.68 \\
+-0.33 & 0.54 & 0.14 & -0.48 & -0.6 \\
+-0.73 & -0.39 & -0.1 & 0.44 & -0.33 \\
+-0.15 & 0.74 & 0.01 & 0.61 & 0.26 \\
+0.0 & 0.12 & -0.98 & -0.13 & -0.02 \\
+  \end{array} &  
+\begin{array}{rrr}
+111.36 & 0.0 & 0.0 \\
+0.0 & 2.88 & 0.0 \\
+0.0 & 0.0 & 0.95 \\
+0 & 0 & 0 \\
+0 & 0 & 0\\
+  \end{array}&  
+\begin{array}{rrr}
+-0.02 & -0.12 & -0.99 \\
+0.35 & 0.93 & -0.12 \\
+-0.94 & 0.35 & -0.03 \\
+  \end{array}  
+\end{array}  
+</script> <br>
+<br>
+Тогда псевдобратная матрица к матрице <script type="math/tex" id="MathJax-Element-389">B</script> будет равна <br>
+<br><script type="math/tex" id="MathJax-Element-390">  
+\begin{array}{c}
+B^+ \\
+\hline
+  \begin{array}{rrrrr}
+-0.04 & -0.08 & 0.05 & 0.08 & 0.98 \\
+0.02 & 0.23 & -0.16 & 0.24 & -0.32 \\
+0.0 & -0.02 & 0.03 & -0.03 & 0.02 \\
+  \end{array}  
+\end{array}  
+</script> <br>
+<br>
+Перемножая <script type="math/tex" id="MathJax-Element-391">B^+ \cdot y = (3.65, 1.46, 3.46)^T</script> <br>
+Значит нужная нам парабола имеет уравнение <script type="math/tex" id="MathJax-Element-392">y = 3.65 + 1.46x + 3.46x^2</script> <br>
+Как мы видим на рисунке, парабола очень хорошо аппроксимирует точки. <br>
+Также можно заметить, что получившеся коэффициенты, немного отличаются от тех помощью которых мы генерировали параболу. Но это можно объяснить тем что мы добавили к точкам шум. <br>
+<img src="https://pp.vk.me/c638622/v638622325/c471/iXvMmpj_3Zc.jpg"></p></li>
+<li><p>Подавление шумов на изображении. <br>
+<br>
+В этом пункте, говоря о SVD  разложении изображения, я буду подразумевать, SVD  разложения каждого из его каналов (R, G , B). <br>
+Если мы добавляем к изображению небольшой шум, то его сингулярные числа меняются ненамного, так как SVD разложение это непрерывное отображение матриц. <br>
+Если наше изображение это фотография, то достаточно часто все его собственные числа будут достаточно большими, и при зашумлении такого изображения часто появляются новые очень близкие к нулю сингулярные числа, а старые меняются совсем немного. Таким образом, мы можем очищать изображения от шума, реконструируя изображение по его достаточно большим сингулярным числам. <br>
+Ниже приведен пример. <br>
+<br></p></li>
+</ol>
+
+<table>
+<tbody><tr>
+    <th> Оригинальное</th>
+    <th> Зашумлённое  </th>
+    <th> Восстановленное </th>
+</tr>
+<tr>
+<td>
+    <img src="https://pp.vk.me/c638621/v638621325/113ec/z1-0Rxe1GVE.jpg" alt="&quot;Original">
+</td>
+<td>
+    <img src="https://pp.vk.me/c638621/v638621325/113fb/Kg1v0UVU3-w.jpg" alt="&quot;Noised">
+</td>
+<td>
+    <img src="https://pp.vk.me/c638621/v638621325/11402/t8w-9QRQ_Qw.jpg" alt="&quot;Restored">
+</td>
+</tr>
+</tbody></table>
+
+<p><br>
+3. Уменьшение размерности данных. <br>
+<br>
+4. Восстановление утраченных данных.</p>
+
+<hr>
+
+<p><strong>Алгоритмы для вычисления сингулярного разложения </strong></p>
+
+<table border="2" align="right">
+  <tbody><tr border="2">
+    <th>Algorithm’s name</th>
+    <th width="150">Class</th>
+    <th width="150">Complexity</th>
+    <th width="150">Numerical stability</th>
+    <th width="150">Compute<br>  what?</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+  <td>1. Convert to bidiagonal  (Householder)  
+  <br><br>  2. Found roots of the charasterictic polynomial  (implicit inverse power  method) 
+  <br> <br> 3. Found singular vectors (back propagate)    </td>
+    <td>Exact</td>
+    <td><script type="math/tex" id="MathJax-Element-393">O(2mn^2+2nm^2)</script></td>
+    <td>Good</td>
+    <td>Full  Matrices</td>
+    <td> 
+    <a href="https://www.quora.com/Whats-the-time-complexity-of-NumPys-SVD-method"> link </a>
+    </td>
+  </tr>
+  <tr>
+    <td>Jacobi rotations</td>
+    <td>Iterative</td>
+    <td>???</td>
+    <td>Very  Good</td>
+    <td>Full  Matrices</td>
+    <td>
+    <a href="http://www.ams.org/journals/tran/1960-094-01/S0002-9947-1960-0109825-2/S0002-9947-1960-0109825-2.pdf">link</a>
+    </td>
+  </tr>
+  <tr>
+    <td>1. Symmetric QR decomposition of <script type="math/tex" id="MathJax-Element-394">A^TA</script>  </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>(Monte Carlo)  <br>  k - rows</td>
+    <td>Iterative</td>
+    <td><script type="math/tex" id="MathJax-Element-395">O(m*n*log(k)</script></td>
+    <td>Good</td>
+    <td>k-th approximation     of full matricies</td>
+    <td>
+    <a href="https://arxiv.org/pdf/0909.4061v2.pdf"> link</a>
+    </td>
+  </tr>
+  <tr>
+    <td>LAPACK ( xBDSCR) <br>   on bidiagonal matrix  n×n</td>
+    <td>Exact</td>
+    <td><script type="math/tex" id="MathJax-Element-396">O(n*k)</script></td>
+    <td>Good</td>
+    <td>k-th  approximation     of full matricies</td>
+    <td>
+    <a href="http://www.netlib.org/lapack/lawnspdf/lawn166.pdf">link</a>
+    </td>
+  </tr>
+</tbody></table>
+
+<p><strong>Литература</strong></p>
+
+<div class="footnotes"><hr><ol><li id="fn:1">Курс Аналитической геометрии и линейной алгебры. Беклемишев Д. В. (с. 234) <a href="#fnref:1" title="Return to article" class="reversefootnote">↩</a></li><li id="fn:2">Дополнительные главы линейной алгебры. Беклемишев  Д. В. (с. 187) <a href="#fnref:2" title="Return to article" class="reversefootnote">↩</a></li></ol></div></div></body>
+</html>
